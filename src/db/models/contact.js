@@ -1,23 +1,11 @@
-import { model, Schema } from 'mongoose';
+import mongoose from 'mongoose';
 
-const contactsSchema = new Schema(
+const contactSchema = new mongoose.Schema(
   {
-    name: {
-      type: String,
-      required: true,
-    },
-    phoneNumber: {
-      type: String,
-      required: true,
-    },
-    email: {
-      type: String,
-      match: /^\S+@\S+\.\S+$/,
-    },
-    isFavourite: {
-      type: Boolean,
-      default: false,
-    },
+    name: { type: String, required: true },
+    phoneNumber: { type: String, required: true },
+    email: { type: String, optional: true },
+    isFavourite: { type: Boolean, default: false },
     contactType: {
       type: String,
       enum: ['work', 'home', 'personal'],
@@ -25,10 +13,7 @@ const contactsSchema = new Schema(
       default: 'personal',
     },
   },
-  {
-    timestamps: true,
-    versionKey: false,
-  },
+  { timestamps: true }
 );
 
-export const Contact = model('Contact', contactsSchema);
+export const Contact = mongoose.model('Contact', contactSchema);
