@@ -9,9 +9,9 @@ import mongoose from 'mongoose';
 const PORT = Number(env('PORT', '3000'));
 export const setupServer = () => {
   const app = express();
-  // add cors
+  
   app.use(cors());
-  // add pino
+  
   app.use(
     pino({
       transport: {
@@ -19,7 +19,13 @@ export const setupServer = () => {
       },
     }),
   );
-  //  get contacts
+  
+  app.get('/', (req, res) => {
+    res.json({
+      message: 'Hello world!',
+    });
+  });
+
   app.get('/contacts', async (req, res) => {
     try {
       const contacts = await getAllContacts();
@@ -36,9 +42,9 @@ export const setupServer = () => {
       });
     }
   });
-  //  get contacts by id
-  app.get('/contacts/:contactsId', async (req, res) => {
-    const contactId = req.params.contactsId;
+
+  app.get('/contacts/:contactId', async (req, res) => {
+    const contactId = req.params.contactId;
     try {
       if (!mongoose.isValidObjectId(contactId)) {
         return res.status(404).json({
@@ -59,7 +65,7 @@ export const setupServer = () => {
         data: contact,
       });
     } catch (error) {
-      res.status(404).json({
+      res.status(500).json({
         status: 500,
         message: `Something went wrong!`,
         error: error.message,
@@ -67,10 +73,7 @@ export const setupServer = () => {
     }
   });
 
-  //   add 404
   app.use(notFoundMiddleware);
-
-  //   start server
 
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}!`);
