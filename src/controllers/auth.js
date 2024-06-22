@@ -1,13 +1,10 @@
-import { registerUser } from '../services/auth.js';
-import { loginUser } from '../services/auth.js';
-import { logoutUser } from '../services/auth.js';
+import { registerUser, loginUser, logoutUser, refreshUsersSession } from '../services/auth.js';
 import { ONE_DAY, FIFTEEN_MINUTES } from '../constants/index.js';
-import { refreshUsersSession } from '../services/auth.js';
 
 export const registerUserController = async (req, res) => {
   const user = await registerUser(req.body);
 
-  res.json(201,{
+  res.status(201).json({
     status: 201,
     message: 'Successfully registered a user!',
     data: user,
