@@ -24,7 +24,7 @@ export const loginUserController = async (req, res) => {
       expires: new Date(Date.now() + FIFTEEN_MINUTES),
     });
   
-    res.json({
+    res.status(200).json({
       status: 200,
       message: 'Successfully logged in an user!',
       data: {
@@ -63,7 +63,7 @@ export const loginUserController = async (req, res) => {
   
     setupSession(res, session);
   
-    res.json({
+    res.status(200).json({
       status: 200,
       message: 'Successfully refreshed a session!',
       data: {
