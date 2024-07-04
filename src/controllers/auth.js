@@ -7,7 +7,7 @@ import {
  resetPassword 
        } from '../services/auth.js';
        
-import { ONE_DAY, FIFTEEN_MINUTES } from '../constants/index.js';
+import { ONE_DAY } from '../constants/index.js';
 
 export const registerUserController = async (req, res) => {
   const user = await registerUser(req.body);
@@ -29,7 +29,7 @@ export const loginUserController = async (req, res) => {
     });
     res.cookie('sessionId', session._id, {
       httpOnly: true,
-      expires: new Date(Date.now() + FIFTEEN_MINUTES),
+      expires: new Date(Date.now() + ONE_DAY),
     });
   
     res.status(200).json({
