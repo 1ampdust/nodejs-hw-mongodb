@@ -1,3 +1,5 @@
+// src/utils/sendMail.js
+
 import nodemailer from 'nodemailer';
 
 import { SMTP } from '../constants/index.js';
