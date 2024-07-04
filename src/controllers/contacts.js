@@ -16,7 +16,7 @@ import { env } from '../utils/env.js';
 import { CLOUDINARY } from '../constants/index.js';
 
 export const getAllContactsController = async (req, res) => {
-    const { _id: userId } = req.user;
+  const { _id: userId } = req.user;
     const { page, perPage } = parsePaginationParams(req.query);
     const { sortBy, sortOrder } = parseSortParams(req.query);
     const filter = { ...parseFilterParams(req.query), userId };
@@ -35,6 +35,7 @@ export const getAllContactsController = async (req, res) => {
       data: contacts,
     });
   };
+
   
   export const getContactByIdController = async (req, res, next) => {
     const { _id: userId } = req.user;
@@ -65,8 +66,7 @@ export const getAllContactsController = async (req, res) => {
       }
     }
     const contact = await createContact(
-      { ...body, photo: photoUrl },
-      req.user._id,
+      { ...body, photo: photoUrl, userId: req.user._id },
     );
   
     res.status(201).json({
@@ -93,8 +93,7 @@ export const getAllContactsController = async (req, res) => {
     if (mongoose.Types.ObjectId.isValid(id)) {
       const result = await updateContact(
         id,
-        { ...body, photo: photoUrl },
-        req.user._id,
+        { ...body, photo: photoUrl, userId: req.user._id },
       );
       if (result) {
         res.json({
