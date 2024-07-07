@@ -1,7 +1,6 @@
 import { SORT_ORDER } from '../constants/index.js';
 import { ContactsCollection } from '../db/models/contact.js';
 import { calculatePaginationData } from '../utils/calculatePaginationData.js';
-import mongoose from 'mongoose';
 
 //Added logic to the service for correct requests to the database
 export const getAllContacts = async ({
@@ -53,25 +52,9 @@ export const getAllContacts = async ({
   };
 };
 
-export const getContactById = async (req, res) => {
-  try {
-    const { contactId } = req.params;
-    const { userId } = req.user;
-
-    if (!mongoose.Types.ObjectId.isValid(contactId)) {
-      return res.status(400).json({ message: "Invalid contact ID format" });
-    }
-
-    const contact = await ContactsCollection.findOne({ _id: contactId, userId });
-
-    if (!contact) {
-      return res.status(404).json({ message: "Contact not found" });
-    }
-
-    res.json(contact);
-  } catch (error) {
-    res.status(500).json({ message: "Something went wrong", error: error.message });
-  }
+export const getContactById = async (contactId, userId) => {
+  const contact = await ContactsCollection.findById({ _id: contactId, userId });
+  return contact;
 };
 
 export const createContact = async (payload) => {
